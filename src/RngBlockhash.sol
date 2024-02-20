@@ -34,7 +34,7 @@ contract RngBlockhash is IRng {
 
   /// @notice Gets the last request id used by the RNG service
   /// @return requestId The last request id used in the last request
-  function getLastRequestId() external view override returns (uint32 requestId) {
+  function getLastRequestId() external view returns (uint32 requestId) {
     return requestCount;
   }
 
