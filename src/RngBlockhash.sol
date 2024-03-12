@@ -1,8 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.24;
+
+import "forge-std/console2.sol";
 
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
+import { DrawManager } from "pt-v5-draw-manager/DrawManager.sol";
 
+/**
+ * @title RngBlockhash
+ * @notice A simple contract for generating random numbers using blockhashes
+ * @dev This contract is intended to be used as a reference implementation for the IRng interface
+ */
 contract RngBlockhash is IRng {
 
   /**
@@ -45,7 +53,7 @@ contract RngBlockhash is IRng {
   /// @return lockBlock The block number at which the RNG service will start generating time-delayed randomness.  The calling contract
   /// should "lock" all activity until the result is available via the `requestId`
   function requestRandomNumber()
-    external
+    public
     payable
     virtual
     returns (uint32 requestId, uint32 lockBlock)
@@ -87,6 +95,12 @@ contract RngBlockhash is IRng {
 
   function requestedAtBlock(uint32 rngRequestId) external virtual override returns (uint256) {
     return requestLockBlock[rngRequestId];
+  }
+
+  function startDraw(DrawManager _drawManager, address _rewardRecipient) external payable returns (uint24) {
+      (uint32 requestId,) = requestRandomNumber();
+      console2.log("startDraw requestId: %d", requestId);
+      return _drawManager.startDraw(_rewardRecipient, requestId);
   }
 
   /// @dev Checks if the request for randomness from the 3rd-party service has completed
