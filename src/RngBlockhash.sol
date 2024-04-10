@@ -80,6 +80,11 @@ contract RngBlockhash is IRng {
     return _isRequestComplete(requestId);
   }
 
+  /// @inheritdoc IRng
+  function isRequestFailed(uint32) external pure returns (bool) {
+    return false;
+  }
+
   /// @notice Gets the random number produced by the 3rd-party service
   /// @param requestId The ID of the request used to get the results of the RNG service
   /// @return randomNum The random number
