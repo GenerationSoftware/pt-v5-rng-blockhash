@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "forge-std/console2.sol";
-
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
 import { DrawManager } from "pt-v5-draw-manager/DrawManager.sol";
 
@@ -104,7 +102,6 @@ contract RngBlockhash is IRng {
 
   function startDraw(DrawManager _drawManager, address _rewardRecipient) external payable returns (uint24) {
       (uint32 requestId,) = requestRandomNumber();
-      console2.log("startDraw requestId: %d", requestId);
       return _drawManager.startDraw(_rewardRecipient, requestId);
   }
 
